@@ -39,4 +39,4 @@ cd journal
 ```bash
 ruby main.rb
 ```
-** This app does require Ruby installed **
+**This app does require Ruby installed**
