@@ -1,48 +1,41 @@
 require 'bundler/setup'
+require 'artii'
 require 'colorize'
+require 'tty-prompt'
 require_relative 'journal'
 
 $rerun = false
 
 def show_menu
-  puts "\n=== Welcome to your journal ===".light_green.bold unless $rerun
-  puts 'Please select action.'.light_green.bold
-  puts '1. Write new entry'.light_green
-  puts '2. View all entries'.light_green
-  puts '3. Search entries'.light_green
-  puts '4. Edit entry'.light_green
-  puts '5. Delete entry'.light_green
-  puts '6. Quit'.light_green
-  print 'Choose an option: '.green
-end
-
-def run
+  slant_font = Artii::Base.new font: 'slant'
+  doom_font = Artii::Base.new font: 'doom'
+  prompt = TTY::Prompt.new(active_color: :green)
   journal = Journal.new('my_journal.txt')
   journal.load_from_file
 
   loop do
-    show_menu
-    choice = gets.chomp
-
+    puts slant_font.asciify('ALIEN JOURNAL').light_green unless $rerun
+    choice = prompt.select('Please select action',
+                           ['Write new entry', 'View all entries', 'Search entries', 'Edit entry', 'Delete entry',
+                            'Quit']).downcase
     case choice
-    when '1'
-      # adding an entry to journals @entries
+    when 'write new entry'
       puts "Please select a title for entry if you'd like one(Press Enter to skip): ".light_green
       title = gets.chomp
       puts 'What is on your mind today? '.light_green
       body = gets.chomp
       entry = Entry.new(body, title)
       journal.add_entry(entry)
+      puts 'Entry saved, survivor'.green
       $rerun = true
-
-    when '2'
+    when 'view all entries'
       journal.display_all
       $rerun = true
-    when '3'
+    when 'search entries'
       print 'Search for: '.light_green
       query = gets.chomp
       search_query(journal, query)
-    when '4'
+    when 'edit entry'
       print 'Search for query to edit: '.light_green
       query = gets.chomp
       results = search_query(journal, query)
@@ -55,8 +48,7 @@ def run
         puts 'Here is your edited entry: '.light_green
         results[choice].display
       end
-    when '5'
-      # delete_entry(journal)
+    when 'delete entry'
       print 'Search for entry to delete: '.light_green
       query = gets.chomp
       results = search_query(journal, query)
@@ -67,13 +59,9 @@ def run
         journal.delete_entry(results[choice])
         puts 'Deleted!'.light_green.bold
       end
-
-    when '6'
-      journal.save_to_file
-      puts 'Goodbye!'.light_green.bold
-      break
-    else
-      puts 'Invalid option!'.red
+    when 'quit'
+      puts doom_font.asciify('YOU SURVIVED ONE MORE DAY').light_green
+      exit(0)
     end
   end
 end
@@ -93,4 +81,4 @@ def search_query(journal, query)
   results
 end
 
-run # Start the program
+show_menu

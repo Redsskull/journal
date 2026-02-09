@@ -16,6 +16,7 @@
 - Probably should be able to choose the name of the file you're saving
 - I want this to be useful for everyone, so some user interface, be it TUI or GUI(but it'll still look like Alien terminals added)
 - Save in the file format in which you would like to
+- Encryption
 - Evil Alien showing up now and then(maybe allow the user to turn that off)
 - I'm open to suggestions!
 
@@ -31,7 +32,7 @@ cd journal
 ```bash
  bundle config set --local path 'vendor/bundle
 ```
-3. Install dependencies:
+3. Install dependencies:Q
 ```bash
 'bundle install'
 ```
