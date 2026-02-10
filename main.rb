@@ -11,8 +11,12 @@ def show_menu
   puts slant_font.asciify('ALIEN JOURNAL').light_green unless $rerun
   print 'Would you like to name your journal? type a name here or press enter to save to the default my_journal: '
   journal_name = gets.chomp
-  journal_name = 'my_journal' if journal_name.empty?
-  journal = Journal.new("#{journal_name}")
+  if journal_name.empty?
+    journal = Journal.new('my_journal.txt')
+  else
+    journal_name += '.txt' unless journal_name.end_with?('.txt')
+    journal = Journal.new(journal_name)
+  end
   journal.load_from_file
 
   loop do
@@ -62,6 +66,7 @@ def show_menu
       end
     when 'quit'
       journal.save_to_file
+      journal.export_to_text
       puts doom_font.asciify('YOU SURVIVED ONE MORE DAY').light_green
       exit(0)
     end

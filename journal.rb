@@ -83,4 +83,22 @@ class Journal
     # I think delete_entry needs to take in the exact entry name for certainty
     @entries.delete(entry)
   end
+
+  def export_to_text
+    export_filename = @filename.gsub('.txt', '_readable.txt')
+    line_width = 80
+    File.open(export_filename, 'w') do |file|
+      @entries.each do |entry|
+        spaces = line_width - entry.date.length - entry.title.length
+        separator = '* * * * *'
+        spaces_before_stars = (line_width - separator.length) / 2
+        centered_stars = "#{' ' * spaces_before_stars}#{separator}"
+        header = "#{entry.date}#{' ' * spaces}#{entry.title}"
+        output = "#{header} \n\n#{entry.body} \n\n#{centered_stars}"
+        file.write(output)
+      rescue StandardError => e
+        puts "Export failed: #{e.message}".red
+      end
+    end
+  end
 end
