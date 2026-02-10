@@ -25,6 +25,8 @@ class Journal
   end
 
   def load_from_file
+    return unless File.exist?(@filename)
+
     file = File.read(@filename)
     # For each line:
     entries = file.split("===END_ENTRY===\n")
