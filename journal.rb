@@ -84,21 +84,71 @@ class Journal
     @entries.delete(entry)
   end
 
-  def export_to_text
-    export_filename = @filename.gsub('.txt', '_readable.txt')
+  def export(format)
+    base_name = File.basename(@filename, '.*')
+
+    case format
+    when 'plaintext(txt)'
+      actual_format = 'txt'
+      export_as_plain_text("#{base_name}_exported.#{actual_format}")
+    when 'markdown'
+      actual_format = 'md'
+      export_as_markdown("#{base_name}_exported.#{actual_format}")
+    when 'pdf'
+      puts 'PDF export coming soon!'.yellow
+    else
+      puts "Unknown format: #{format}".red
+    end
+  end
+
+  private
+
+  def export_as_plain_text(filename)
     line_width = 80
-    File.open(export_filename, 'w') do |file|
+    File.open(filename, 'w') do |file|
       @entries.each do |entry|
         spaces = line_width - entry.date.length - entry.title.length
         separator = '* * * * *'
         spaces_before_stars = (line_width - separator.length) / 2
         centered_stars = "#{' ' * spaces_before_stars}#{separator}"
         header = "#{entry.date}#{' ' * spaces}#{entry.title}"
-        output = "#{header} \n\n#{entry.body} \n\n#{centered_stars}"
+        output = <<~ENTRY
+          #{header}
+
+          #{entry.body}
+
+          #{centered_stars}
+        ENTRY
         file.write(output)
-      rescue StandardError => e
-        puts "Export failed: #{e.message}".red
       end
     end
+    puts "Exported to #{filename}!".green
+  rescue StandardError => e
+    puts "Export failed: #{e.message}".red
+  end
+
+  def export_as_markdown(filename)
+    File.open(filename, 'w') do |file|
+      @entries.each do |entry|
+        markdown = <<~MD
+          ## #{entry.title}
+
+          *#{entry.date}*
+
+          #{entry.body}
+
+          ---
+
+        MD
+        file.write(markdown)
+      end
+    end
+    puts "Exported to #{filename}!".green
+  rescue StandardError => e
+    puts "Export failed #{e.messgae}".red
+  end
+
+  def export_as_pdf(filename)
+    # PDF formatting (future)
   end
 end

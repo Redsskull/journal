@@ -21,7 +21,7 @@ def show_menu
 
   loop do
     choice = prompt.select('Please select action',
-                           ['Write new entry', 'View all entries', 'Search entries', 'Edit entry', 'Delete entry',
+                           ['Write new entry', 'View all entries', 'Search entries', 'Edit entry', 'Delete entry', 'Export journal to file',
                             'Quit']).downcase
     case choice
     when 'write new entry'
@@ -64,9 +64,12 @@ def show_menu
         journal.delete_entry(results[choice])
         puts 'Deleted!'.light_green.bold
       end
+    when 'export journal to file'
+      format = prompt.select('Please select format', ['PDF', 'Markdown', 'Plaintext(txt)']).downcase
+      journal.export(format)
+
     when 'quit'
       journal.save_to_file
-      journal.export_to_text
       puts doom_font.asciify('YOU SURVIVED ONE MORE DAY').light_green
       exit(0)
     end
