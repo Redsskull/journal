@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'artii'
 require 'colorize'
+require 'prawn'
 require 'tty-prompt'
 require_relative 'journal'
 

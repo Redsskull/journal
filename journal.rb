@@ -95,7 +95,7 @@ class Journal
       actual_format = 'md'
       export_as_markdown("#{base_name}_exported.#{actual_format}")
     when 'pdf'
-      puts 'PDF export coming soon!'.yellow
+      export_as_pdf("#{base_name}_exported.pdf")
     else
       puts "Unknown format: #{format}".red
     end
@@ -149,6 +149,19 @@ class Journal
   end
 
   def export_as_pdf(filename)
-    # PDF formatting (future)
+    Prawn::Document.generate(filename) do |pdf|
+      @entries.each do |entry|
+        pdf.text entry.title, size: 18, style: :bold
+        pdf.text entry.date, size: 10, style: :italic
+        pdf.move_down 10
+        pdf.text entry.body
+        pdf.move_down 10
+        pdf.text '-' * 50 # ← Use regular hyphen, not em-dash!
+        pdf.move_down 20
+      end
+    end
+    puts "Exported to #{filename}!".green
+  rescue StandardError => e
+    puts "Export failed: #{e.message}".red
   end
 end
