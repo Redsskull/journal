@@ -7,13 +7,15 @@
 - Entries can be edited or removed
 - Style inspired by Alien Isolation's terminals (Don't worry, no evil alien will chase you... yet. Maybe I'll add that feature in the future)
 - Added export support for PDF, Markdown, and Plain Text!
+- Users can now select which journal to load or create. data is stored locally. 
 
 ## This project is very small, but I have plans for it
 
 ### What I'd like to add
-- Probably should be able to choose the name of the file you're saving
+- Probably should be able to choose the name of the file you're saving ✅ Done!
+- Testing manually proved difficult as the program grows. I must learn and add tests before anything else.(at testing framework perhaps that can be added to as features as added)
+- Swap journal in the loop menu
 - Choose export filename ("Save As" dialog when exporting)
-- I'd like internal data to have the user an option to decide which journal to load in the first place. Will need a data folder (so the 'database' is just on the local storage)
 - I want this to be useful for everyone, so some user interface, be it TUI or GUI (but it'll still look like Alien terminals)
 - Save in different file formats ✅ Done!
 - Encryption (because some thoughts need protecting from the Nostromo's crew)

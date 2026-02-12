@@ -10,13 +10,28 @@ def show_menu
   doom_font = Artii::Base.new font: 'doom'
   prompt = TTY::Prompt.new(active_color: :green)
   puts slant_font.asciify('ALIEN JOURNAL').light_green unless $rerun
-  print 'Would you like to name your journal? type a name here or press enter to save to the default my_journal: '
-  journal_name = gets.chomp
-  if journal_name.empty?
-    journal = Journal.new('my_journal.txt')
-  else
-    journal_name += '.txt' unless journal_name.end_with?('.txt')
-    journal = Journal.new(journal_name)
+  option = prompt.select('Would like to start a new journal, load your existing journal?',
+                         ['New Journal', 'Load existing Journal']).downcase
+  case option
+  when 'new journal'
+    print 'What would you like to name your journal? '.light_green
+    journal_name = gets.chomp
+    if journal_name.empty?
+      journal = Journal.new('My Journal.txt')
+    else
+      journal_name += '.txt' unless journal_name.end_with?('.txt')
+      journal = Journal.new(journal_name)
+    end
+  when 'load existing journal'
+    # Find all the text files using Dir.glob(read about that), then use map to make an array of them and put their basename)
+    journal_files = Dir.glob('data/*txt').map { |path| File.basename(path) }
+    if journal_files.empty?
+      puts 'No saved journals found. starting default My Journal'.yellow
+      journal = Journal.new('My Journal.txt')
+    else
+      choice = prompt.select('Select your journal', journal_files)
+      journal = Journal.new(choice)
+    end
   end
   journal.load_from_file
 

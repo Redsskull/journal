@@ -14,7 +14,8 @@ class Journal
   end
 
   def save_to_file
-    File.open(@filename, 'w') do |file|
+    Dir.mkdir('data') unless Dir.exist?('data')
+    File.open(File.join('data', @filename), 'w') do |file|
       @entries.each do |entry|
         line = "#{entry.date}|#{entry.title}|#{entry.body}\n===END_ENTRY===\n"
         file.write(line)
@@ -25,9 +26,9 @@ class Journal
   end
 
   def load_from_file
-    return unless File.exist?(@filename)
+    return unless File.exist?("data/#{@filename}")
 
-    file = File.read(@filename)
+    file = File.read("data/#{@filename}")
     # For each line:
     entries = file.split("===END_ENTRY===\n")
     # Split by "|" to get date, title, body
