@@ -2,7 +2,7 @@ class Entry
   attr_reader :date
   attr_accessor :title, :body
 
-  def initialize(body, title = '', _date = nil)
+  def initialize(body, title = '', date = nil)
     @date = date || Time.now.strftime('%y-%m-%d')
     @body = body
     @title = title

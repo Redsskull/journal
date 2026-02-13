@@ -13,7 +13,7 @@
 
 ### What I'd like to add
 - Probably should be able to choose the name of the file you're saving ✅ Done!
-- Testing manually proved difficult as the program grows. I must learn and add tests before anything else.(at testing framework perhaps that can be added to as features as added)
+- Testing manually proved difficult as the program grows. I must learn and add tests before anything else.(at testing framework perhaps that can be added to as features as added) ✅ Done!
 - Swap journal in the loop menu
 - Choose export filename ("Save As" dialog when exporting)
 - I want this to be useful for everyone, so some user interface, be it TUI or GUI (but it'll still look like Alien terminals)
@@ -44,5 +44,20 @@ bundle install
 ```bash
 ruby main.rb
 ```
+## Testing
+I used MiniTest for testing, and I used old fashion unit tests
+```back
+ruby -Itest test/test_*.rb
+```
+Will run my tests, and of course using Ruby to run an individual test file can be done as well. 
+See `test/test.md` for testing philosophy and approach.
+
+## Testing
+I used MiniTest for testing, and I used old fashion unit tests
+```bash
+ruby test/run_all.rb
+```
+Will run my tests, and of course using Ruby to run an individual test file can be done as well. 
+See `test/test.md` for testing philosophy and approach.
 
 **This app requires Ruby installed**

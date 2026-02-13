@@ -16,6 +16,8 @@ def show_menu
   when 'new journal'
     print 'What would you like to name your journal? '.light_green
     journal_name = gets.chomp
+    # This is very explicit, but it's important my program knows which files to look for internall.
+    # txt seems a simple choice for this for now.
     if journal_name.empty?
       journal = Journal.new('My Journal.txt')
     else

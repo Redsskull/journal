@@ -1,7 +1,7 @@
 require_relative 'entry'
 
 class Journal
-  attr_reader :entries
+  attr_reader :entries, :filename
 
   def initialize(filename)
     @filename = filename
