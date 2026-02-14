@@ -5,6 +5,8 @@ require 'prawn'
 require 'tty-prompt'
 require_relative 'journal'
 
+$rerun = false
+
 def show_menu
   slant_font = Artii::Base.new font: 'slant'
   doom_font = Artii::Base.new font: 'doom'
@@ -39,7 +41,7 @@ def show_menu
 
   loop do
     choice = prompt.select('Please select action',
-                           ['Write new entry', 'View all entries', 'Search entries', 'Edit entry', 'Delete entry', 'Export journal to file',
+                           ['Write new entry', 'View all entries', 'Search entries', 'Edit entry', 'Delete entry', 'Export journal to file', 'Load different journal',
                             'Quit']).downcase
     case choice
     when 'write new entry'
@@ -85,6 +87,11 @@ def show_menu
     when 'export journal to file'
       format = prompt.select('Please select format', ['PDF', 'Markdown', 'Plaintext(txt)']).downcase
       journal.export(format)
+
+    when 'load different journal'
+      $rerun = true
+      show_menu
+      break
 
     when 'quit'
       journal.save_to_file
