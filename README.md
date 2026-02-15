@@ -16,7 +16,7 @@
 - Testing manually proved difficult as the program grows. I must learn and add tests before anything else.(at testing framework perhaps that can be added to as features as added) ✅ Done!
 - Swap journal in the loop menu✅ Done!
 - Choose export filename ("Save As" dialog when exporting)
-- Journal class could use a manager to make main less of a clutter, maybe one day. 
+- Journal class could use a manager to make main less of a clutter ✅ Done! I imagine as I discover more needs I'll make more smaller files and methods as I grow.
 - Save in different file formats ✅ Done!
 - Encryption (because some thoughts need protecting from the Nostromo's crew)
 - Evil Alien showing up now and then (maybe allow the user to turn that off)

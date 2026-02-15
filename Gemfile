@@ -1,7 +1,12 @@
 source 'https://rubygems.org'
 
 gem 'artii'
-gem 'rubocop'
 gem 'colorize'
 gem 'tty-prompt'
 gem 'prawn'
+
+# Development/test dependencies
+group :development, :test do
+  gem 'minitest'
+  gem 'rubocop'
+end

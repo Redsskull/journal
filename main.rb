@@ -4,14 +4,14 @@ require 'colorize'
 require 'prawn'
 require 'tty-prompt'
 require_relative 'journal'
-
-$rerun = false
+require_relative 'journal_manager'
 
 def show_menu
   slant_font = Artii::Base.new font: 'slant'
   doom_font = Artii::Base.new font: 'doom'
+  manager = JournalManager.new
   prompt = TTY::Prompt.new(active_color: :green)
-  puts slant_font.asciify('ALIEN JOURNAL').light_green unless $rerun
+  puts slant_font.asciify('ALIEN JOURNAL').light_green
   option = prompt.select('Would like to start a new journal, load your existing journal?',
                          ['New Journal', 'Load existing Journal']).downcase
   case option
@@ -21,23 +21,14 @@ def show_menu
     # This is very explicit, but it's important my program knows which files to look for internall.
     # txt seems a simple choice for this for now.
     if journal_name.empty?
-      journal = Journal.new('My Journal.txt')
+      journal = manager.load_journal('My Journal.txt')
     else
       journal_name += '.txt' unless journal_name.end_with?('.txt')
-      journal = Journal.new(journal_name)
+      journal = manager.load_journal(journal_name)
     end
   when 'load existing journal'
-    # Find all the text files using Dir.glob(read about that), then use map to make an array of them and put their basename)
-    journal_files = Dir.glob('data/*txt').map { |path| File.basename(path) }
-    if journal_files.empty?
-      puts 'No saved journals found. starting default My Journal'.yellow
-      journal = Journal.new('My Journal.txt')
-    else
-      choice = prompt.select('Select your journal', journal_files)
-      journal = Journal.new(choice)
-    end
+    journal = manager.swap_journal
   end
-  journal.load_from_file
 
   loop do
     choice = prompt.select('Please select action',
@@ -89,10 +80,7 @@ def show_menu
       journal.export(format)
 
     when 'load different journal'
-      $rerun = true
-      show_menu
-      break
-
+      journal = manager.swap_journal
     when 'quit'
       journal.save_to_file
       puts doom_font.asciify('YOU SURVIVED ONE MORE DAY').light_green

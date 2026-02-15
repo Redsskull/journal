@@ -2,15 +2,23 @@ require 'minitest/autorun'
 require_relative '../journal'
 
 class TestIntegration < Minitest::Test
+  # Learned about setup and teardown. didn't know this before!
   def setup
     # Runs before each test
     @test_files = []
   end
 
   def teardown
-    # Runs after each test - cleanup the files I made if I did
     @test_files.each do |file|
       File.delete("data/#{file}") if File.exist?("data/#{file}")
+    end
+
+    begin
+      Dir.delete('data') if File.directory?('data')
+    rescue Errno::ENOTEMPTY
+      # Directory not empty - that's fine
+    rescue Errno::ENOENT
+      # Directory doesn't exist - that's fine too
     end
   end
 
