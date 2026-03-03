@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Entry
   attr_reader :date
   attr_accessor :title, :body
@@ -9,8 +11,8 @@ class Entry
   end
 
   def display
-    puts "#{@date}".light_green
-    puts "#{@title}".light_green
-    puts "#{@body}".light_blue
+    puts @date.light_green
+    puts @title.light_green
+    puts @body.light_blue
   end
 end
