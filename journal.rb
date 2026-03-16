@@ -1,5 +1,8 @@
-require_relative 'entry'
+# frozen_string_literal: true
 
+require_relative 'entry'
+# Journal managers the many entires from Entry, sorting them together into a Journal
+# it can save, load and even export journals and entries
 class Journal
   attr_reader :entries, :filename
 
